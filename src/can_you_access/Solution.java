@@ -2,52 +2,58 @@ package can_you_access;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.security.Permission;
 
+//Make sure to use a package lower than JDK 17 before running the following
 public class Solution {
 
     public static void main(String[] args) throws Exception {
         DoNotTerminate.forbidExit();
 
-        try{
+        try {
             BufferedReader br = new BufferedReader(new FileReader("./data/can_you_access/input"));
+            //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             int num = Integer.parseInt(br.readLine().trim());
-            Object o = Solution.Inner.Private.class;// Must be used to hold the reference of the instance of the class even_forest.Solution.Inner.Private
+            Object o;
 
-            //Write your code here
-            Method[] methods = o.getClass().getDeclaredMethods();
-            for(Method method : methods) {
-               // if(method.) {
-                method.setAccessible(true);
-                if(method.getName().contains("power"))
-                System.out.println(method.getName());
-               // }
-            }
-          //  System.out.println(o.getClass().getMethod("powerof2"));
+            Inner inner = new Inner();
+            Class<?> clazz = inner.getClass().getDeclaredClasses()[0];
+            Method method = clazz.getDeclaredMethod("powerof2", int.class);
+            method.setAccessible(true);
+
+            Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
+            constructor.setAccessible(true);
+
+            Inner.Private instance = (Inner.Private) constructor.newInstance(inner);
+            o = instance;
+
+            String result = String.valueOf(method.invoke(instance, num));
+
+            System.out.println(num + " is " + result);
 
             System.out.println("An instance of class: " + o.getClass().getCanonicalName() + " has been created");
 
-        }//end of try
+        }
 
         catch (DoNotTerminate.ExitTrappedException e) {
             System.out.println("Unsuccessful Termination!!");
         }
-    }//end of main
-    static class Inner{
-        private class Private{
+    }
+    static class Inner {
+        private class Private {
             private String powerof2(int num){
-                return ((num&num-1)==0)?"power of 2":"not a power of 2";
+                return ((num & num -1) == 0) ? "power of 2" : "not a power of 2";
             }
         }
-    }//end of Inner
+    }
 
-}//end of even_forest.Solution
+}
 
-class DoNotTerminate { //This class prevents exit(0)
+class DoNotTerminate {
 
     public static class ExitTrappedException extends SecurityException {
-
         private static final long serialVersionUID = 1L;
     }
 
