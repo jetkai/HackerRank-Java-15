@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Solution {
 
@@ -16,7 +17,7 @@ public class Solution {
         BufferedReader bufferedReader = new BufferedReader(new FileReader("./data/prime_checker/input3"));
         //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         List<String> stringArray = bufferedReader.lines().collect(Collectors.toList());
-
+        stringArray.remove(0);
 
         Solution solution = new Solution();
         solution.init(stringArray);
@@ -36,33 +37,14 @@ public class Solution {
     }
 
     private void printPrime() {
-/*        if(primeArray.size() < 4) {
-            int bound = 4 - primeArray.size();
-            for (int i = 0; i < bound; i++) {
-                PrimeNumber primeNumber = primeArray.get(0);
-                System.out.println(primeNumber);
-            }
-        }*/
+        if(primeArray.size() < 4)
+            IntStream.range(0, 4 - primeArray.size())
+                    .mapToObj(i -> primeArray.get(0))
+                    .forEach(System.out::println);
 
-      //  while(primeArray.size() > 4) {
-/*        IntStream.range(0, primeArray.size()).filter(i -> i + 1 <= primeArray.size() - 1).forEach(i -> {
-            PrimeNumber compare1 = primeArray.get(i);
-            PrimeNumber compare2 = primeArray.get(i + 1);
-            if (compare1.getNumber().equals(compare2.getNumber()))
-                primeArray.remove(i);
-        });*/
-      //  }
-        int bound = primeArray.size();
-        for (int i = 1; i <= bound; i++) {
-
-            String collect = primeArray.stream()
-                    .limit(i)
-                    .filter(PrimeNumber::isPrime)
-                    .map(PrimeNumber::getNumber)
-                    .collect(Collectors.joining(" "));
-
-            System.out.println(collect);
-        }
+        IntStream.rangeClosed(1, primeArray.size())
+                .mapToObj(i -> primeArray.stream().limit(i)
+                        .collect(Collectors.toList())).forEach(x -> System.out.println(x.stream().map(PrimeNumber::getNumber).collect(Collectors.toList())));
     }
 
 }

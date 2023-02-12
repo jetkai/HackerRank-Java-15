@@ -1,4 +1,4 @@
-package binginteger_multiply;
+package biginteger_multiply;
 
 import java.io.BufferedReader;
 import java.io.IOException;
