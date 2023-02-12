@@ -1,4 +1,4 @@
-package stringsintroduction;
+package strings_introduction;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Solution {
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("./data/stringsintroduction/input"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("./data/strings_introduction/input"));
         //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         List<String> stringArray = bufferedReader.lines().collect(Collectors.toList());
         bufferedReader.close();

@@ -11,27 +11,31 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader("./data/substring_comparison/input"));
+        //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         List<String> inputArray = bufferedReader.lines().collect(Collectors.toList());
-        System.out.println(getSmallestAndLargest(inputArray.get(0), Integer.parseInt(inputArray.get(1))));
         bufferedReader.close();
+
+        Solution solution = new Solution();
+
+        String input1 = inputArray.get(0);
+        int input2 = Integer.parseInt(inputArray.get(1));
+
+        String smallestAndLargest = solution.getSmallestAndLargest(input1, input2);
+        System.out.println(smallestAndLargest);
     }
 
-    public static String getSmallestAndLargest(String s, int k) {
-        // Complete the function
-        // 'smallest' must be the lexicographically smallest substring of length 'k'
-        // 'largest' must be the lexicographically largest substring of length 'k'
-
+    public String getSmallestAndLargest(String s, int k) {
         List<String> strings = new ArrayList<>();
 
         for(int i = 0; i <= s.length(); i++) {
-            int min = i;
             int max = i + k;
-            if(max > s.length())
+            if(max > s.length()) {
                 break;
-            strings.add(s.substring(min, max));
+            }
+            strings.add(s.substring(i, max));
         }
 
-        strings.sort(String.CASE_INSENSITIVE_ORDER);
+        strings = strings.stream().sorted().collect(Collectors.toList());
 
         String smallest = strings.get(0);
         String largest = strings.get(strings.size() - 1);
